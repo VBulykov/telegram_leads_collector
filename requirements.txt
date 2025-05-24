@@ -1,0 +1,6 @@
+fastapi[uvicorn]==0.115.12
+sqlalchemy==2.0.41
+telethon==1.40.0
+arq==0.26.3
+PyJWT==2.9.0
+cryptography==45.0.2
