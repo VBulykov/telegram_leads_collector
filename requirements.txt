@@ -4,3 +4,5 @@ telethon==1.40.0
 arq==0.26.3
 PyJWT==2.9.0
 cryptography==45.0.2
+pydantic-settings==2.9.1
+pydantic==2.11.5
