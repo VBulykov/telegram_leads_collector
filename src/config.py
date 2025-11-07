@@ -22,8 +22,8 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
     DB_ECHO: bool
 
-    API_ID: int
-    API_HASH: str
+    # API_ID: int
+    # API_HASH: str
 
     FERNET_KEY: str
 
@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     REDIS_PORT: str
     REDIS_PASSWORD: str | None
 
-    Auth_JWT: AuthJWT = AuthJWT()
+    # Auth_JWT: AuthJWT = AuthJWT()
 
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env")

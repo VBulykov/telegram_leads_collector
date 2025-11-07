@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Boolean, Text
-from sqlalchemy.dialects.postgresql import TIMESTAMPTZ
+from sqlalchemy import Boolean, DateTime, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database.base import BaseModel
@@ -15,5 +14,5 @@ class User(BaseModel):
     email: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     phone_number: Mapped[str | None] = mapped_column(Text, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
-    created_at: Mapped[datetime] = mapped_column(TIMESTAMPTZ, nullable=False, server_default="NOW()")
-    updated_at: Mapped[datetime] = mapped_column(TIMESTAMPTZ, nullable=False, server_default="NOW()")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default="NOW()")
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default="NOW()")
