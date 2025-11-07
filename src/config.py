@@ -10,7 +10,8 @@ class AuthJWT(BaseModel):
     private_key_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "auth", "certs", "jwt-private.pem")
     public_key_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "auth", "certs", "jwt-public.pem")
     algorithm: str = "RS256"
-    access_token_expires_minutes: int = 720
+    access_token_expires_minutes: int = 30
+    refresh_token_expires_days: int = 60
 
 
 class Settings(BaseSettings):
