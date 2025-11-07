@@ -10,7 +10,8 @@ class AuthJWT(BaseModel):
     private_key_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "auth", "certs", "jwt-private.pem")
     public_key_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "auth", "certs", "jwt-public.pem")
     algorithm: str = "RS256"
-    access_token_expires_minutes: int = 720
+    access_token_expires_minutes: int = 30
+    refresh_token_expires_days: int = 60
 
 
 class Settings(BaseSettings):
@@ -21,8 +22,8 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
     DB_ECHO: bool
 
-    API_ID: int
-    API_HASH: str
+    # API_ID: int
+    # API_HASH: str
 
     FERNET_KEY: str
 
@@ -30,7 +31,7 @@ class Settings(BaseSettings):
     REDIS_PORT: str
     REDIS_PASSWORD: str | None
 
-    Auth_JWT: AuthJWT = AuthJWT()
+    # Auth_JWT: AuthJWT = AuthJWT()
 
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env")
