@@ -41,7 +41,7 @@ class Settings(BaseSettings):
         return Fernet(self.FERNET_KEY.encode())
 
     @property
-    def DB_URL(self) -> str:
+    def DATABASE_URL(self) -> str:
         return (
             f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
             f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
