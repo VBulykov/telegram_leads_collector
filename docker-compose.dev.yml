@@ -1,15 +1,19 @@
 version: "3.8"
 
 services:
-  fastapi-app:
+  web:
     build:
-      context: ..
+      context: .
       dockerfile: Dockerfile
-    command: ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     env_file:
-      - ../.env
+      - .env
     ports:
       - "8000:8000"
+    volumes:
+      - ./src:/app/src
+      - ./migrations:/app/migrations
+      - ./requirements.txt:/app/requirements.txt
     depends_on:
       db:
         condition: service_healthy
@@ -17,7 +21,7 @@ services:
         condition: service_started
     restart: unless-stopped
     networks:
-      - service-tier
+      - app-network
 
   db:
     image: postgres:17
@@ -25,6 +29,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-telegram_leads}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -34,10 +40,12 @@ services:
       retries: 5
     restart: unless-stopped
     networks:
-      - service-tier
+      - app-network
 
   redis:
     image: redis:7-alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis_data:/data
     command: redis-server --appendonly yes
@@ -48,12 +56,29 @@ services:
       retries: 5
     restart: unless-stopped
     networks:
-      - service-tier
+      - app-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - app-network
 
 volumes:
   postgres_data:
   redis_data:
+  pgadmin_data:
 
 networks:
-  service-tier:
+  app-network:
     driver: bridge
