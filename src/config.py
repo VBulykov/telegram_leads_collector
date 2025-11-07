@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     REDIS_PORT: str
     REDIS_PASSWORD: str | None
 
-    # Auth_JWT: AuthJWT = AuthJWT()
+    Auth_JWT: AuthJWT = AuthJWT()
 
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env")
